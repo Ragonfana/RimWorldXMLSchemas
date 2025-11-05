@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  targetNamespace="rimworld.schemas.modMetaData"
+  xmlns:commonTypes="rimworld.commonTypes"
+  xmlns:modMetaData="rimworld.schemas.modMetaData"
+  version="1.0"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+
+  <xs:import
+    namespace="rimworld.commonTypes"
+    schemaLocation="commonTypes.xsd" />
+
+  <xs:annotation>
+    <xs:documentation> This is an inferenced XML Schema Language document to validate About.xml
+      files used in Rimworld mods. </xs:documentation>
+  </xs:annotation>
+
+  <!-- Root -->
+
+  <xs:element name="ModMetaData">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element
+          name="packageID"
+          type="commonTypes:PackageId" />
+        <xs:element
+          name="name"
+          type="xs:string" />
+        <xs:element
+          name="shortName"
+          type="xs:string"
+          minOccurs="0"
+          nillable="true" />
+        <xs:element
+          name="supportedVersions"
+          type="commonTypes:List" />
+        <xs:element
+          name="modVersion"
+          type="modMetaData:FlaggedStringType"
+          minOccurs="0" />
+
+        <xs:choice id="author">
+          <xs:element
+            name="author"
+            type="xs:string" />
+          <xs:element
+            name="author"
+            type="commonTypes:List" />
+        </xs:choice>
+
+        <xs:element
+          name="description"
+          type="xs:string" />
+        <xs:element
+          name="descriptionsByVersion"
+          minOccurs="0">
+          <xs:complexType>
+            <xs:group
+              ref="modMetaData:VersionStringType"
+              minOccurs="1"
+              maxOccurs="unbounded" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element
+          name="url"
+          type="xs:anyURI"
+          minOccurs="0" />
+
+        <xs:element
+          name="modDependencies"
+          minOccurs="0">
+          <xs:complexType>
+            <xs:group ref="modMetaData:ModDependencyData" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element
+          name="modDependenciesByVersion"
+          minOccurs="0">
+          <xs:complexType>
+            <xs:group
+              ref="modMetaData:VersionWithModDependencyDataType"
+              minOccurs="1"
+              maxOccurs="unbounded" />
+          </xs:complexType>
+        </xs:element>
+
+        <xs:element
+          name="forceLoadBefore"
+          type="commonTypes:PackageIdList"
+          minOccurs="0" />
+        <xs:element
+          name="loadBefore"
+          type="commonTypes:PackageIdList"
+          minOccurs="0" />
+        <xs:element
+          name="loadBeforeByVersion"
+          minOccurs="0">
+          <xs:complexType>
+            <xs:group
+              ref="modMetaData:VersionPackageIdListType"
+              minOccurs="1"
+              maxOccurs="unbounded" />
+          </xs:complexType>
+        </xs:element>
+
+        <xs:element
+          name="forceLoadAfter"
+          type="commonTypes:PackageIdList"
+          minOccurs="0" />
+        <xs:element
+          name="loadAfter"
+          type="commonTypes:PackageIdList"
+          minOccurs="0" />
+        <xs:element
+          name="loadAfterByVersion"
+          minOccurs="0">
+          <xs:complexType>
+            <xs:group
+              ref="modMetaData:VersionPackageIdListType"
+              minOccurs="1"
+              maxOccurs="unbounded" />
+          </xs:complexType>
+        </xs:element>
+
+        <xs:element
+          name="modIconPath"
+          type="modMetaData:FlaggedStringType"
+          minOccurs="0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- Type declarations -->
+
+  <xs:attribute name="IgnoreIfNoMatchingField">
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:pattern value="True|False" />
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:attribute>
+
+  <xs:complexType name="FlaggedStringType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute ref="modMetaData:IgnoreIfNoMatchingField" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="FlaggedListType">
+    <xs:complexContent>
+      <xs:extension base="commonTypes:List">
+        <xs:attribute ref="modMetaData:IgnoreIfNoMatchingField" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:group name="ModDependencyData">
+    <xs:sequence>
+      <xs:element name="li">
+        <xs:complexType>
+          <xs:all>
+            <xs:element
+              name="packageId"
+              type="commonTypes:PackageId" />
+            <xs:element
+              name="displayName"
+              type="xs:string" />
+            <xs:element
+              name="steamWorkshopUrl"
+              type="commonTypes:SteamWorkshopUrl" />
+            <xs:element
+              name="alternativePackageIDs"
+              minOccurs="0">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element
+                    name="li"
+                    type="commonTypes:PackageIdList" />
+                </xs:sequence>
+                <xs:attribute ref="modMetaData:IgnoreIfNoMatchingField" />
+              </xs:complexType>
+            </xs:element>
+          </xs:all>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:group>
+
+  <!-- Version string group declarations beyond here -->
+  <!-- XSD 1.0 has zero support for variable element names -->
+  <!-- Ludeon please make the version an attribute of <li>. -->
+
+  <!-- <any> is used to prevent failure in the event of game update without schema update -->
+
+  <xs:group name="VersionStringType">
+    <xs:choice>
+      <xs:element
+        name="v1.0"
+        type="xs:string"
+        minOccurs="0" />
+      <xs:element
+        name="v1.1"
+        type="xs:string"
+        minOccurs="0" />
+      <xs:element
+        name="v1.2"
+        type="xs:string"
+        minOccurs="0" />
+      <xs:element
+        name="v1.3"
+        type="xs:string"
+        minOccurs="0" />
+      <xs:element
+        name="v1.4"
+        type="xs:string"
+        minOccurs="0" />
+      <xs:element
+        name="v1.5"
+        type="xs:string"
+        minOccurs="0" />
+      <xs:element
+        name="v1.6"
+        type="xs:string"
+        minOccurs="0" />
+      <xs:any
+        namespace="##targetNamespace"
+        processContents="lax"
+        minOccurs="0"
+        maxOccurs="unbounded" />
+    </xs:choice>
+  </xs:group>
+
+  <xs:group name="VersionWithModDependencyDataType">
+    <xs:choice>
+      <xs:element
+        name="v1.0"
+        minOccurs="0">
+        <xs:complexType>
+          <xs:group ref="modMetaData:ModDependencyData" />
+        </xs:complexType>
+      </xs:element>
+      <xs:element
+        name="v1.1"
+        minOccurs="0">
+        <xs:complexType>
+          <xs:group ref="modMetaData:ModDependencyData" />
+        </xs:complexType>
+      </xs:element>
+      <xs:element
+        name="v1.2"
+        minOccurs="0">
+        <xs:complexType>
+          <xs:group ref="modMetaData:ModDependencyData" />
+        </xs:complexType>
+      </xs:element>
+      <xs:element
+        name="v1.3"
+        minOccurs="0">
+        <xs:complexType>
+          <xs:group ref="modMetaData:ModDependencyData" />
+        </xs:complexType>
+      </xs:element>
+      <xs:element
+        name="v1.4"
+        minOccurs="0">
+        <xs:complexType>
+          <xs:group ref="modMetaData:ModDependencyData" />
+        </xs:complexType>
+      </xs:element>
+      <xs:element
+        name="v1.5"
+        minOccurs="0">
+        <xs:complexType>
+          <xs:group ref="modMetaData:ModDependencyData" />
+        </xs:complexType>
+      </xs:element>
+      <xs:element
+        name="v1.6"
+        minOccurs="0">
+        <xs:complexType>
+          <xs:group ref="modMetaData:ModDependencyData" />
+        </xs:complexType>
+      </xs:element>
+      <xs:any
+        namespace="##targetNamespace"
+        processContents="lax"
+        minOccurs="0"
+        maxOccurs="unbounded" />
+    </xs:choice>
+  </xs:group>
+
+  <xs:group name="VersionPackageIdListType">
+    <xs:choice>
+      <xs:element
+        name="v1.0"
+        type="commonTypes:PackageIdList"
+        minOccurs="0" />
+      <xs:element
+        name="v1.1"
+        type="commonTypes:PackageIdList"
+        minOccurs="0" />
+      <xs:element
+        name="v1.2"
+        type="commonTypes:PackageIdList"
+        minOccurs="0" />
+      <xs:element
+        name="v1.3"
+        type="commonTypes:PackageIdList"
+        minOccurs="0" />
+      <xs:element
+        name="v1.4"
+        type="commonTypes:PackageIdList"
+        minOccurs="0" />
+      <xs:element
+        name="v1.5"
+        type="commonTypes:PackageIdList"
+        minOccurs="0" />
+      <xs:element
+        name="v1.6"
+        type="commonTypes:PackageIdList"
+        minOccurs="0" />
+      <xs:any
+        namespace="##targetNamespace"
+        processContents="lax"
+        minOccurs="0"
+        maxOccurs="unbounded" />
+    </xs:choice>
+  </xs:group>
+
+</xs:schema>

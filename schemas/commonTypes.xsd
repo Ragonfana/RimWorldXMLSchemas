@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:commonTypes="rimworld.commonTypes"
+  targetNamespace="rimworld.commonTypes"
+  version="1.0"
+  elementFormDefault="qualified">
+
+  <xs:simpleType name="SteamWorkshopUrl">
+    <xs:restriction base="xs:anyURI">
+      <xs:pattern value="steam:\/\/url\/CommunityFilePage\/\d{1,}" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="List">
+    <xs:sequence>
+      <xs:element
+        name="li"
+        type="xs:string"
+        minOccurs="1"
+        maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="PackageId">
+    <xs:restriction base="xs:token">
+      <xs:minLength value="1" />
+      <xs:pattern value="[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)*" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="PackageIdList">
+    <xs:sequence>
+      <xs:element
+        name="li"
+        type="commonTypes:PackageId"
+        minOccurs="1"
+        maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>

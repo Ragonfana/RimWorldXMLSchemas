@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
+    <uri
+        name="rimworld.schemas.modMetaData"
+        uri="./schemas/ModMetaData.xsd" />
+    <uri
+        name="rimworld.schemas.loadFolders"
+        uri="./schemas/LoadFolders.xsd" />
+</catalog>
