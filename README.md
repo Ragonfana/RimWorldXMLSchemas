@@ -1,7 +1,5 @@
 # RimWorld XML Schema files
 
----
-
 _Please review the [LICENSE](/LICENSE) before contributing to this project. By making any contribution to this project, you agree to the terms of the LICENSE._
 
 This is a collection of implied XML schema files in .xsd format for RimWorld mod development, inspired by the work of [Sam Hunt](https://github.com/sam-hunt/RimworldXsd). At time of writing, these files' rules were referenced primarily via the [information publicly available on the RimWorld wiki](https://rimworldwiki.com/wiki/Modding_Tutorials).
