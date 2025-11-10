@@ -5,7 +5,7 @@
     xmlns:commonTypes="rimworld.commonTypes"
     targetNamespace="rimworld.commonTypes"
     version="1.0"
-    elementFormDefault="qualified">
+    elementFormDefault="unqualified">
 
     <xs:simpleType name="SteamWorkshopUrl">
         <xs:restriction base="xs:anyURI">
