@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="rimworld.schemas.loadFolders"
+    xmlns:loadFolders="rimworld.schemas.loadFolders"
+    version="1.0"
+    elementFormDefault="unqualified">
+
+    <xs:annotation>
+        <xs:documentation> Inferenced XML Schema Language document to validate LoadFolders.xml files
+            used in RimWorld mods. LoadFolders.xml points the modloader at specific folders based on
+            game version.</xs:documentation>
+    </xs:annotation>
+
+    <!-- Accessing commonTypes seems to cause namespace issues so List is replicated here until a
+    fix can be proposed -->
+
+    <xs:complexType name="List">
+        <xs:sequence>
+            <xs:element
+                name="li"
+                type="xs:string"
+                minOccurs="1"
+                maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="loadFolders">
+        <xs:complexType>
+            <xs:choice
+                minOccurs="1"
+                maxOccurs="unbounded">
+                <!-- As with About.xml, XSD1.0 has no support for variable element names-->
+                <xs:element
+                    name="v1.0"
+                    type="loadFolders:List" />
+                <xs:element
+                    name="v1.1"
+                    type="loadFolders:List" />
+                <xs:element
+                    name="v1.2"
+                    type="loadFolders:List" />
+                <xs:element
+                    name="v1.3"
+                    type="loadFolders:List" />
+                <xs:element
+                    name="v1.4"
+                    type="loadFolders:List" />
+                <xs:element
+                    name="v1.5"
+                    type="loadFolders:List" />
+                <xs:element
+                    name="v1.6"
+                    type="loadFolders:List" />
+                <xs:any
+                    namespace="##local"
+                    processContents="lax"
+                    minOccurs="0"
+                    maxOccurs="unbounded" />
+            </xs:choice>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>
