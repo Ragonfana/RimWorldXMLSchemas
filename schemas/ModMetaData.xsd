@@ -27,7 +27,7 @@
                     name="name"
                     type="xs:string" />
                 <xs:element
-                    name="packageID"
+                    name="packageId"
                     type="commonTypes:PackageId" />
                 <xs:element
                     name="shortName"
