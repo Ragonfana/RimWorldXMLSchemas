@@ -7,12 +7,6 @@
     version="1.0"
     elementFormDefault="unqualified">
 
-    <xs:simpleType name="SteamWorkshopUrl">
-        <xs:restriction base="xs:anyURI">
-            <xs:pattern value="steam:\/\/url\/CommunityFilePage\/\d{1,}" />
-        </xs:restriction>
-    </xs:simpleType>
-
     <xs:complexType name="List">
         <xs:sequence>
             <xs:element
